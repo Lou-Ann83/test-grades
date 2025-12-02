@@ -23,3 +23,11 @@ library(readr)
 courses <- read.csv("data/courses.csv") 
 ```
 
+## Question 2
+
+```{r}
+courses <- courses |> rename(`course name`= course, identifier = course_id, `Number of exams`= nb_grades ) |> arrange((`course name`))
+
+knitr::kable(courses)
+```
+
