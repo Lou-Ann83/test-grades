@@ -78,6 +78,11 @@ median_age_grp <- age_per_group |> group_by(group)|> summarise(median = median(a
 knitr::kable(median_age_grp)
 ```
 
+## Question 9
+
+```{r}
+oldest <- students |> distinct(group, age) |> group_by(group) |> slice_max(age) |> arrange(desc(age))
+```
 
 
 
