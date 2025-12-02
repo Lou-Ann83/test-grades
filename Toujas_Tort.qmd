@@ -30,4 +30,11 @@ courses <- courses |> rename(`course name`= course, identifier = course_id, `Num
 
 knitr::kable(courses)
 ```
+## Question 3 
+
+```{r}
+students <- read_delim(here("data", "students.csv"), col_types = cols(group = col_factor(), birth_date= col_date(), sex = col_factor(), id = col_integer()))
+str(students)
+print("The birth_date column of the students data frame is a Date column ")
+```
 
