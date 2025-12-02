@@ -90,6 +90,13 @@ oldest <- students |> distinct(group, age) |> group_by(group) |> slice_max(age) 
 nb_grades = sum(!is.na(grades$grade))
 glue::glue("There is {nb_grades} grades ")
 ```
+## Question 11
 
+```{r}
+GWM_grades <- grades |> left_join(students, by = "id") |> filter(course_id==10) |> group_by(group) |> summarise(mean_grp = mean(grade, na.rm=TRUE))
+
+ggplot(GWM_grades, aes(x=group, y=mean_grp))+
+  geom_col()
+```
 
 
