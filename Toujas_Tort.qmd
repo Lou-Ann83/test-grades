@@ -8,6 +8,13 @@ repo-url: https://github.com/Lou-Ann83/test-grades.git
 ## Intro
 
 ```{r}
+#| include: false
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+
+
+```{r}
 here::i_am("test-grades.Rproj")
 library(ggplot2)
 library(dplyr)
@@ -234,3 +241,4 @@ finals <- avg_by_course |> left_join(students, by="id") |> select(-c(birth_date,
 
 ```
  
+ I don't think my rendered html work, it stops at question 3 but I don't have the time to fix it unfortunately
