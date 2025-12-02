@@ -164,8 +164,7 @@ Philo_logic <- grades_per_student |> filter(course_id==8) |> group_by(id) |> sum
 ## Question 16
 
 ```{r}
-dist_philo_logic <- Philo_logic |> 
-  count(nb_grade_pl, name = "n_students")
+dist_philo_logic <- Philo_logic |> count(nb_grade_pl, name = "n_students")
 
 ggplot(dist_philo_logic, aes(x = nb_grade_pl, y = n_students)) +
   geom_col() 
@@ -193,15 +192,11 @@ We can see that the boxes are still the same for the group (previous question), 
 ## Question 19
 
 ```{r}
-avg_by_course <- grades |> left_join(students, by="id") |> select(-c(sex, birth_date, age)) |>
-  summarise(
-    avg_grade = mean(grade, na.rm = TRUE),
-    .by = c(id, group, course_id)
-  ) 
+avg_by_course <- grades |> left_join(students, by="id") |> select(-c(sex, birth_date, age)) |> summarise(avg_grade = mean(grade, na.rm = TRUE), .by = c(id, group, course_id)) 
+
 avg_by_course <- avg_by_course |> left_join(courses, by= "course_id") |> select (-c(course_id, semester, nb_grades))
+
 avg_by_course <- avg_by_course |> pivot_wider(names_from = course, values_from = avg_grade)
-
-
 
 
 knitr::kable(sample_n(avg_by_course), 5)
@@ -209,10 +204,33 @@ knitr::kable(sample_n(avg_by_course), 5)
 ## Question 20
 
 ```{r}
-ggplot(avg_by_course, 
-       aes(x = `Xenology and Extraterrestrial Life`,
-           y = `Roman History and Civilization`)) +
+ggplot(avg_by_course, aes(x = `Xenology and Extraterrestrial Life`,y = `Roman History and Civilization`)) +
   geom_point()
 ```
 ## Question 21
 
+```{r}
+cor_by_group <- avg_by_course|> summarise(correlation = cor(`Galactic Warfare and Military Tactics`,`Roman Law and Jurisprudence`),.by = group)
+
+```
+
+## Question 22
+
+```{r}
+best_group <- cor_by_group |> slice_max(abs(correlation))|>pull(group)
+
+Best <- avg_by_course |> filter(group == best_group)
+
+ggplot(avg_by_course, aes(x = `Galactic Warfare and Military Tactics`,y = `Roman Law and Jurisprudence`)) +
+  geom_point()
+
+
+
+```
+## Question 23
+
+```{r}
+finals <- avg_by_course |> left_join(students, by="id") |> select(-c(birth_date, age)) |> mutate(final_grade = mean(across(-c(id, group.x, sex)), na.rm = TRUE)) |> select(id, group, sex, final_grade) |> arrange(desc(final_grade))
+
+```
+ 
