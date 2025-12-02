@@ -17,6 +17,7 @@ library(stringr)
 library(tidyr)
 library(readr)
 ```
+
 ## Question 1
 
 ```{r}
@@ -30,19 +31,22 @@ courses <- courses |> rename(`course name`= course, identifier = course_id, `Num
 
 knitr::kable(courses)
 ```
-## Question 3 
+
+## Question 3
 
 ```{r}
 students <- read_delim(here("data", "students.csv"), col_types = cols(group = col_factor(), birth_date= col_date(), sex = col_factor(), id = col_integer()))
 str(students)
 print("The birth_date column of the students data frame is a Date column ")
 ```
+
 ## Question 4
 
 ```{r}
 grades <- read_delim(here("data", "grades.csv"), delim = ":", na = "$")
 str(grades)
 ```
+
 ## Question 5
 
 ```{r}
@@ -58,6 +62,7 @@ Gender_balance <- students |> count(group,sex)
 ggplot(Gender_balance, aes(x = group,y=n, fill = sex))+
       geom_col(position = "fill")
 ```
+
 ## Question 7
 
 ```{r}
@@ -84,12 +89,13 @@ knitr::kable(median_age_grp)
 oldest <- students |> distinct(group, age) |> group_by(group) |> slice_max(age) |> arrange(desc(age))
 ```
 
-## Question  10
+## Question 10
 
 ```{r}
 nb_grades = sum(!is.na(grades$grade))
 glue::glue("There is {nb_grades} grades ")
 ```
+
 ## Question 11
 
 ```{r}
@@ -98,5 +104,54 @@ GWM_grades <- grades |> left_join(students, by = "id") |> filter(course_id==10) 
 ggplot(GWM_grades, aes(x=group, y=mean_grp))+
   geom_col()
 ```
+
+## Question 12
+
+```{r}
+courses <- courses |> rename(course_id = identifier)
+grades_sem <- grades |> left_join(courses, by = "course_id") |> count(semester, grade) |> 
+
+
+
+ggplot(grades_sem, aes(grade,n))+
+  geom_col()+
+  facet_wrap(~semester, ncol=1)
+  
+
+```
+
+## Question 13
+
+```{r}
+
+```
+
+| Col1 | Col2 |
+|------|------|
+|      |      |
+|      |      |
+|      |      |
+|      |      |
+|      |      |
+
+```{grades_per_student <- grades |> group_by(id) |> mutate(nb_grade = n()) |> left_join(students, by = "id")}
+
+knitr::kable(sample_n(grades_per_student, 5))
+
+```
+
+```{r}
+Max_nb = max(grades_per_student$nb_grade)
+Min_nb = min(grades_per_student$nb_grade)
+Mean_nb = mean(grades_per_student$nb_grade)
+Median_nb = median(grades_per_student$nb_grade)
+```
+
+| Name    | Value       |
+|---------|-------------|
+| Maximum | `Max_nb`    |
+| Minimum | `Min_nb`    |
+| Mean    | `Mean_nb`   |
+| Median  | `Median_nb` |
 
 
