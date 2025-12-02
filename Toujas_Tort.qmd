@@ -58,4 +58,17 @@ Gender_balance <- students |> count(group,sex)
 ggplot(Gender_balance, aes(x = group,y=n, fill = sex))+
       geom_col(position = "fill")
 ```
+## Question 7
+
+```{r}
+library(lubridate)
+event_date <- date(students$birth_date)
+students <- students |> mutate(age=time_length(today()-event_date, unit="year"), age = as.integer(students$age)) 
+
+students_age <- students|> distinct(id, age) |> count(age)
+ggplot(students_age, aes(age, n))+
+  geom_col()
+```
+
+
 
