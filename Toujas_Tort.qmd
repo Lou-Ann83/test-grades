@@ -37,4 +37,10 @@ students <- read_delim(here("data", "students.csv"), col_types = cols(group = co
 str(students)
 print("The birth_date column of the students data frame is a Date column ")
 ```
+## Question 4
+
+```{r}
+grades <- read_delim(here("data", "grades.csv"), delim = ":", na = "$")
+str(grades)
+```
 
