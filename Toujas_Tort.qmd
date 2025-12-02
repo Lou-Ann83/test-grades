@@ -153,4 +153,32 @@ ggplot(grades_gender, aes(x=sex, y=nb_by_gender))+
   geom_col()
 ```
 
+## Question 15
+
+```{r}
+Philo_logic <- grades_per_student |> filter(course_id==8) |> group_by(id) |> summarise(nb_grade_pl = sum(!is.na(grade))) |> left_join(students, by="id") |> select(-c(birth_date, sex, age))
+
+                                                                                  knitr::kable(sample_n(Philo_logic, 5))
+
+```
+## Question 16
+
+```{r}
+dist_philo_logic <- Philo_logic |> 
+  count(nb_grade_pl, name = "n_students")
+
+ggplot(dist_philo_logic, aes(x = nb_grade_pl, y = n_students)) +
+  geom_col() 
+  
+```
+
+## Question 17
+
+```{r}
+ggplot(Philo_logic, aes(x = group, y = nb_grade_pl)) +
+  geom_boxplot() 
+
+```
+We can see that the boxed are almost perfectely aligned, which means tha the group have no incidence on the number of grades in the Philosophy and Logic class
+
 
