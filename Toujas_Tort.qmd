@@ -109,7 +109,7 @@ ggplot(GWM_grades, aes(x=group, y=mean_grp))+
 
 ```{r}
 courses <- courses |> rename(course_id = identifier)
-grades_sem <- grades |> left_join(courses, by = "course_id") |> count(semester, grade) |> 
+grades_sem <- grades |> left_join(courses, by = "course_id") |> count(semester, grade) 
 
 
 
@@ -123,22 +123,12 @@ ggplot(grades_sem, aes(grade,n))+
 ## Question 13
 
 ```{r}
-
-```
-
-| Col1 | Col2 |
-|------|------|
-|      |      |
-|      |      |
-|      |      |
-|      |      |
-|      |      |
-
-```{grades_per_student <- grades |> group_by(id) |> mutate(nb_grade = n()) |> left_join(students, by = "id")}
+grades_per_student <- grades |> group_by(id) |> mutate(nb_grade = n()) |> left_join(students, by = "id")
 
 knitr::kable(sample_n(grades_per_student, 5))
-
 ```
+
+
 
 ```{r}
 Max_nb = max(grades_per_student$nb_grade)
@@ -153,5 +143,14 @@ Median_nb = median(grades_per_student$nb_grade)
 | Minimum | `Min_nb`    |
 | Mean    | `Mean_nb`   |
 | Median  | `Median_nb` |
+
+## Question 14
+
+```{r}
+grades_gender <- grades_per_student |> group_by(sex) |> summarize(nb_by_gender = sum(nb_grade))
+
+ggplot(grades_gender, aes(x=sex, y=nb_by_gender))+
+  geom_col()
+```
 
 
