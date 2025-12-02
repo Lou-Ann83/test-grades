@@ -43,4 +43,11 @@ print("The birth_date column of the students data frame is a Date column ")
 grades <- read_delim(here("data", "grades.csv"), delim = ":", na = "$")
 str(grades)
 ```
+## Question 5
+
+```{r}
+nb_student_per_grp <- students |> distinct(id, group) |> count(group)
+ggplot(nb_student_per_grp, aes(x=n, y=group))+
+  geom_col()
+```
 
