@@ -2,12 +2,24 @@
 title: "Toujas-Tort"
 format: html
 editor: visual
-repo-url : https://github.com/Lou-Ann83/test-grades.git
+repo-url: https://github.com/Lou-Ann83/test-grades.git
 ---
 
 ## Intro
 
 ```{r}
-here::i_am()
+here::i_am("test-grades.Rproj")
+library(ggplot2)
+library(dplyr)
+library(here)
+library(vroom)
+library(stringr)
+library(tidyr)
+library(readr)
+```
+## Question 1
+
+```{r}
+courses <- read.csv("data/courses.csv") 
 ```
 
