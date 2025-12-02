@@ -84,5 +84,12 @@ knitr::kable(median_age_grp)
 oldest <- students |> distinct(group, age) |> group_by(group) |> slice_max(age) |> arrange(desc(age))
 ```
 
+## Question  10
+
+```{r}
+nb_grades = sum(!is.na(grades$grade))
+glue::glue("There is {nb_grades} grades ")
+```
+
 
 
