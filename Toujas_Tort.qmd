@@ -70,5 +70,14 @@ ggplot(students_age, aes(age, n))+
   geom_col()
 ```
 
+## Question 8
+
+```{r}
+age_per_group <- students |> count(group, age) 
+median_age_grp <- age_per_group |> group_by(group)|> summarise(median = median(age), median = as.integer(median_age_grp$median))
+knitr::kable(median_age_grp)
+```
+
+
 
 
