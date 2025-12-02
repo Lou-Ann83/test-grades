@@ -156,7 +156,7 @@ ggplot(grades_gender, aes(x=sex, y=nb_by_gender))+
 ## Question 15
 
 ```{r}
-Philo_logic <- grades_per_student |> filter(course_id==8) |> group_by(id) |> summarise(nb_grade_pl = sum(!is.na(grade))) |> left_join(students, by="id") |> select(-c(birth_date, sex, age))
+Philo_logic <- grades_per_student |> filter(course_id==8) |> group_by(id) |> summarise(nb_grade_pl = sum(!is.na(grade))) |> left_join(students, by="id") |> select(-c(birth_date, age))
 
                                                                                   knitr::kable(sample_n(Philo_logic, 5))
 
@@ -181,4 +181,38 @@ ggplot(Philo_logic, aes(x = group, y = nb_grade_pl)) +
 ```
 We can see that the boxed are almost perfectely aligned, which means tha the group have no incidence on the number of grades in the Philosophy and Logic class
 
+## Question 18
+
+```{r}
+ggplot(Philo_logic, aes(x = group, y = nb_grade_pl, fill = sex)) +
+  geom_boxplot() 
+
+```
+We can see that the boxes are still the same for the group (previous question), but they seem to slightly differ depending on the sex. There might be a correlation between both.
+
+## Question 19
+
+```{r}
+avg_by_course <- grades |> left_join(students, by="id") |> select(-c(sex, birth_date, age)) |>
+  summarise(
+    avg_grade = mean(grade, na.rm = TRUE),
+    .by = c(id, group, course_id)
+  ) 
+avg_by_course <- avg_by_course |> left_join(courses, by= "course_id") |> select (-c(course_id, semester, nb_grades))
+avg_by_course <- avg_by_course |> pivot_wider(names_from = course, values_from = avg_grade)
+
+
+
+
+knitr::kable(sample_n(avg_by_course), 5)
+```
+## Question 20
+
+```{r}
+ggplot(avg_by_course, 
+       aes(x = `Xenology and Extraterrestrial Life`,
+           y = `Roman History and Civilization`)) +
+  geom_point()
+```
+## Question 21
 
